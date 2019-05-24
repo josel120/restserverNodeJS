@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 let Schema = mongoose.Schema;
 
-let usuarioSchema = new Schema({
+let userSchema = new Schema({
     name: {
         type: String,
         required: [true, 'name is required']
@@ -20,6 +20,7 @@ let usuarioSchema = new Schema({
         required: false
     },
     role: {
+        type: String,
         default: 'USER_ROLE'
     },
     status: {
@@ -32,4 +33,4 @@ let usuarioSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model(User, userSchema);
+module.exports = mongoose.model('User', userSchema);
