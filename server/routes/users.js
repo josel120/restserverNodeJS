@@ -4,6 +4,7 @@ const app = express();
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const _ = require('underscore');
 
 // Rutas usuarios
 app.get('/user', function(req, res) {
@@ -33,9 +34,9 @@ app.post('/user', function(req, res) {
 });
 app.put('/user/:id', function(req, res) {
     let id = req.params.id;
-    let body = req.body;
+    let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'status']);
 
-    Usuario.findByIdAndUpdate(id, body, { new: true }, (error, usuarioDB) => {
+    Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (error, usuarioDB) => {
         if (error) {
             return res.status(400).json({
                 ok: false,
