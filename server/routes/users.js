@@ -2,6 +2,9 @@ const express = require('express');
 const Usuario = require('../models/user');
 const app = express();
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 // Rutas usuarios
 app.get('/user', function(req, res) {
     res.json('GET users');
@@ -12,17 +15,17 @@ app.post('/user', function(req, res) {
     let usuario = new Usuario({
         name: body.name,
         email: body.email,
-        password: body.password,
+        password: bcrypt.hashSync(body.password, saltRounds),
         role: body.role
     });
     usuario.save((error, usuarioDB) => {
         if (error) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 error
             });
         }
-        res.json({
+        return res.json({
             persona: usuarioDB
         });
     })
