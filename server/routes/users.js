@@ -25,16 +25,30 @@ app.post('/user', function(req, res) {
                 error
             });
         }
-        return res.json({
+        res.json({
+            ok: true,
             persona: usuarioDB
         });
     })
 });
 app.put('/user/:id', function(req, res) {
     let id = req.params.id;
-    res.json({
-        id: id
-    });
+    let body = req.body;
+
+    Usuario.findByIdAndUpdate(id, body, { new: true }, (error, usuarioDB) => {
+        if (error) {
+            return res.status(400).json({
+                ok: false,
+                error
+            });
+        }
+
+        res.json({
+            ok: true,
+            persona: usuarioDB
+        });
+    })
+
 });
 app.delete('/user/:id', function(req, res) {
     res.json('DELETE user');
