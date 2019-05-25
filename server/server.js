@@ -19,7 +19,8 @@ app.get('/', function(req, res) {
 
 
 mongoose.connect('mongodb+srv://admin:admin@cloudmongo-soi7x.mongodb.net/cafePrueba', {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex: true
 }, (error, res) => {
     if (error) throw error;
     console.log("database online");
