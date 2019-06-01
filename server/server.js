@@ -19,7 +19,7 @@ app.get('/', function(req, res) {
 });
 
 
-mongoose.connect('mongodb+srv://admin:admin@cloudmongo-soi7x.mongodb.net/cafePrueba', {
+mongoose.connect(process.env.URLDB, {
     useNewUrlParser: true,
     useCreateIndex: true
 }, (error, res) => {

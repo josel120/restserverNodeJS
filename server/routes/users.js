@@ -14,7 +14,7 @@ app.get('/user', function(req, res) {
     let from = Number(req.query.from) || 0;
     let limite = Number(req.query.limit) || 5;
 
-    Usuario.find({}, 'name email img role status google')
+    Usuario.find({ deleted: false }, 'name email img role status google deleted')
         .limit(limite)
         .skip(from)
         .exec((error, users) => {
@@ -24,7 +24,7 @@ app.get('/user', function(req, res) {
                     error
                 });
             }
-            Usuario.count({}, (err, total) => {
+            Usuario.count({ deleted: false }, (err, total) => {
                 res.json({
                     ok: true,
                     persona: users,
