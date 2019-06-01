@@ -1,3 +1,5 @@
+/* jshint esversion:6 */
+
 const express = require('express');
 const Usuario = require('../models/user');
 const app = express();
@@ -7,8 +9,21 @@ const saltRounds = 10;
 const _ = require('underscore');
 
 // Rutas usuarios
+// listar usuarios
 app.get('/user', function(req, res) {
-    res.json('GET users');
+    Usuario.find({})
+        .exec((error, users) => {
+            if (error) {
+                return res.status(400).json({
+                    ok: false,
+                    error
+                });
+            }
+            res.json({
+                ok: true,
+                persona: users
+            });
+        });
 });
 app.post('/user', function(req, res) {
     let body = req.body;
@@ -30,7 +45,7 @@ app.post('/user', function(req, res) {
             ok: true,
             persona: usuarioDB
         });
-    })
+    });
 });
 app.put('/user/:id', function(req, res) {
     let id = req.params.id;
@@ -48,7 +63,7 @@ app.put('/user/:id', function(req, res) {
             ok: true,
             persona: usuarioDB
         });
-    })
+    });
 
 });
 app.delete('/user/:id', function(req, res) {

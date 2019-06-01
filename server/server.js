@@ -1,4 +1,5 @@
-require('./config/config')
+/*jshint esversion: 6 */
+require('./config/config');
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -15,7 +16,7 @@ app.use(require('./routes/users'));
 
 app.get('/', function(req, res) {
     res.json('Hello World');
-})
+});
 
 
 mongoose.connect('mongodb+srv://admin:admin@cloudmongo-soi7x.mongodb.net/cafePrueba', {
