@@ -11,7 +11,12 @@ const _ = require('underscore');
 // Rutas usuarios
 // listar usuarios
 app.get('/user', function(req, res) {
+    let from = Number(req.query.from) || 0;
+    let limite = Number(req.query.limit) || 5;
+
     Usuario.find({})
+        .limit(limite)
+        .skip(from)
         .exec((error, users) => {
             if (error) {
                 return res.status(400).json({
@@ -19,9 +24,12 @@ app.get('/user', function(req, res) {
                     error
                 });
             }
-            res.json({
-                ok: true,
-                persona: users
+            Usuario.count({}, (err, total) => {
+                res.json({
+                    ok: true,
+                    persona: users,
+                    total: total
+                });
             });
         });
 });
