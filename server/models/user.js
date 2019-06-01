@@ -1,3 +1,4 @@
+/* jshint esversion:6 */
 const mongoose = require('mongoose');
 
 let Schema = mongoose.Schema;
@@ -38,6 +39,10 @@ let userSchema = new Schema({
     google: {
         type: Boolean,
         default: false
+    },
+    deleted: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -48,7 +53,7 @@ userSchema.methods.toJSON = function() {
     let userObject = user.toObject();
     delete userObject.password;
     return userObject;
-}
+};
 userSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser unico' });
 
 module.exports = mongoose.model('User', userSchema);

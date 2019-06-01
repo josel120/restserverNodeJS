@@ -14,7 +14,7 @@ app.get('/user', function(req, res) {
     let from = Number(req.query.from) || 0;
     let limite = Number(req.query.limit) || 5;
 
-    Usuario.find({})
+    Usuario.find({}, 'name email img role status google')
         .limit(limite)
         .skip(from)
         .exec((error, users) => {
@@ -66,7 +66,6 @@ app.put('/user/:id', function(req, res) {
                 error
             });
         }
-
         res.json({
             ok: true,
             persona: usuarioDB
@@ -75,7 +74,30 @@ app.put('/user/:id', function(req, res) {
 
 });
 app.delete('/user/:id', function(req, res) {
-    res.json('DELETE user');
+    let id = req.params.id;
+    let deleteUser = {
+        deleted: true
+    };
+    Usuario.findByIdAndUpdate(id, deleteUser, { new: true }, (error, userDeleted) => {
+        if (error) {
+            return res.status(400).json({
+                ok: false,
+                error
+            });
+        }
+        if (!userDeleted) {
+            return res.status(400).json({
+                ok: false,
+                error: {
+                    message: "User not found!"
+                }
+            });
+        }
+        res.json({
+            ok: true,
+            persona: userDeleted
+        });
+    });
 });
 
 module.exports = app;
