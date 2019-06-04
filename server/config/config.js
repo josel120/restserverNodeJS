@@ -30,3 +30,6 @@ process.env.TOKEN_EXPIRED = process.env.TOKEN_EXPIRED || 60 * 60 * 24 * 30;
 
 // Seed authentication
 process.env.TOKEN_SEED = process.env.TOKEN_SEED || 'secret';
+
+// Google
+process.env.GOOGLE_CLIENT = process.env.GOOGLE_CLIENT || '231406294081-ot607l9vhimogb4sot34j3eadpmjj536.apps.googleusercontent.com';
