@@ -1,7 +1,7 @@
 /* jshint esversion:6 */
 const express = require('express');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 const Usuario = require('../models/user');
 
 const app = express();
@@ -33,9 +33,15 @@ app.post('/login', (req, res) => {
                 }
             });
         }
+
+        let token = jwt.sign({
+            usuario: usuarioDB
+        }, process.env.TOKEN_SEED, { expiresIn: process.env.TOKEN_EXPIRED });
+
         res.json({
             ok: true,
-            message: 'User logged'
+            usuario: usuarioDB,
+            token
         });
     });
 });

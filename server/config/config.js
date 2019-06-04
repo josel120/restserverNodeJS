@@ -24,3 +24,9 @@ if (process.env.NODE_ENV == 'dev') {
 process.env.URLDB = urlDB;
 process.env.userDB = userDB;
 process.env.passwordDB = passwordDB;
+
+// Vencimiento del token
+process.env.TOKEN_EXPIRED = process.env.TOKEN_EXPIRED || 60 * 60 * 24 * 30;
+
+// Seed authentication
+process.env.TOKEN_SEED = process.env.TOKEN_SEED || 'secret';

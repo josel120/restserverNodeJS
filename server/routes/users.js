@@ -2,15 +2,17 @@
 
 const express = require('express');
 const Usuario = require('../models/user');
-const app = express();
 
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
 const _ = require('underscore');
+const saltRounds = 10;
+const { verifyToken } = require('../middlewares/authentication');
+
+const app = express();
 
 // Rutas usuarios
 // listar usuarios
-app.get('/user', function(req, res) {
+app.get('/user', verifyToken, function(req, res) {
     let from = Number(req.query.from) || 0;
     let limite = Number(req.query.limit) || 5;
 
@@ -33,7 +35,7 @@ app.get('/user', function(req, res) {
             });
         });
 });
-app.post('/user', function(req, res) {
+app.post('/user', verifyToken, function(req, res) {
     let body = req.body;
 
     let usuario = new Usuario({
@@ -55,7 +57,7 @@ app.post('/user', function(req, res) {
         });
     });
 });
-app.put('/user/:id', function(req, res) {
+app.put('/user/:id', verifyToken, function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'status']);
 
@@ -73,7 +75,7 @@ app.put('/user/:id', function(req, res) {
     });
 
 });
-app.delete('/user/:id', function(req, res) {
+app.delete('/user/:id', verifyToken, function(req, res) {
     let id = req.params.id;
     let deleteUser = {
         deleted: true
