@@ -24,7 +24,7 @@ app.get('/user', function(req, res) {
                     error
                 });
             }
-            Usuario.count({ deleted: false }, (err, total) => {
+            Usuario.countDocuments({ deleted: false }, (err, total) => {
                 res.json({
                     ok: true,
                     persona: users,
