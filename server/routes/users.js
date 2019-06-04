@@ -6,7 +6,7 @@ const Usuario = require('../models/user');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const saltRounds = 10;
-const { verifyToken } = require('../middlewares/authentication');
+const { verifyToken, verifyAdmin_Role } = require('../middlewares/authentication');
 
 const app = express();
 
@@ -29,22 +29,22 @@ app.get('/user', verifyToken, function(req, res) {
             Usuario.countDocuments({ deleted: false }, (err, total) => {
                 res.json({
                     ok: true,
-                    persona: users,
+                    users: users,
                     total: total
                 });
             });
         });
 });
-app.post('/user', verifyToken, function(req, res) {
+app.post('/user', [verifyToken, verifyAdmin_Role], function(req, res) {
     let body = req.body;
 
-    let usuario = new Usuario({
+    let user = new Usuario({
         name: body.name,
         email: body.email,
         password: bcrypt.hashSync(body.password, saltRounds),
         role: body.role
     });
-    usuario.save((error, usuarioDB) => {
+    user.save((error, usuarioDB) => {
         if (error) {
             return res.status(400).json({
                 ok: false,
@@ -53,11 +53,11 @@ app.post('/user', verifyToken, function(req, res) {
         }
         res.json({
             ok: true,
-            persona: usuarioDB
+            user: usuarioDB
         });
     });
 });
-app.put('/user/:id', verifyToken, function(req, res) {
+app.put('/user/:id', [verifyToken, verifyAdmin_Role], function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['name', 'email', 'img', 'role', 'status']);
 
@@ -70,12 +70,12 @@ app.put('/user/:id', verifyToken, function(req, res) {
         }
         res.json({
             ok: true,
-            persona: usuarioDB
+            user: usuarioDB
         });
     });
 
 });
-app.delete('/user/:id', verifyToken, function(req, res) {
+app.delete('/user/:id', [verifyToken, verifyAdmin_Role], function(req, res) {
     let id = req.params.id;
     let deleteUser = {
         deleted: true
@@ -97,7 +97,7 @@ app.delete('/user/:id', verifyToken, function(req, res) {
         }
         res.json({
             ok: true,
-            persona: userDeleted
+            user: userDeleted
         });
     });
 });
