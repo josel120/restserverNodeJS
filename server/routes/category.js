@@ -26,7 +26,7 @@ app.post('/category', verifyToken, (req, res) => {
                 error
             });
         }
-        res.json({
+        res.status(201).json({
             ok: true,
             category: categoryDB
         });
@@ -49,7 +49,7 @@ app.get('/category', (req, res) => {
             });
         });
 });
-app.get('/category:id', (req, res) => {
+app.get('/category/:id', (req, res) => {
     let id = req.params.id;
     Category.findById(id, (err, categoryDB) => {
         if (err) {
