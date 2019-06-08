@@ -85,7 +85,7 @@ app.put('/category/:id', verifyToken, (req, res) => {
         }
         res.json({
             ok: true,
-            user: categoryDB
+            category: categoryDB
         });
     });
 });
@@ -109,7 +109,7 @@ app.delete('/category/:id', [verifyToken, verifyAdmin_Role], (req, res) => {
         }
         res.json({
             ok: true,
-            user: categoryDB
+            category: categoryDB
         });
     });
 
